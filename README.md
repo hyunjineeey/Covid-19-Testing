@@ -51,6 +51,7 @@ Date: Sep - Dec, 2020 (3 months)
 * Implemented to have a google map
 * Implemented to have a busy chart
 * Implemented a user profile section to control their own information
+* Stored a data across pages using localStorage
 * Work closely with back end programmer to meet project requirements, goals, and desired functionality
 
 ## Future improvements
