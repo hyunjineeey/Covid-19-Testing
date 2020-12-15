@@ -36,12 +36,11 @@ Date: Sep - Dec, 2020 (3 months)
 ## What We Did
 * Used Asana for agile process to keep track of tasks
 * Used Figma for developing user interface design
-* User research before starting implementation
-* Had interviews with two potential users to have project ideas on the process of user research
-* Research and compared other similar applications(Klara and CVS) to make a difference with them
-* Walkthrough a first (half-way done) prototype with two different users and updated based on their valuable feedback
-* Heuristic evaluation with the team to help design enhance usability from early in development
-* User Testing when it's all done to discover usability and design issues
+* Had interviews with two potential users to get project ideas on the process of user research
+* Performed research and compared similar applications(Klara and CVS) to make a difference with them
+* Performed cognitive walkthrough for a first (half-way done) prototype with two different users and updated based on their valuable feedback
+* Performed heuristic evaluation with the team to help design enhance from early in development
+* Performed user testing when it's all done to discover usability and design issues
 
 ## What I (Hyunjin Jae) Did
 * Managed development plan from initial through completion
@@ -52,7 +51,7 @@ Date: Sep - Dec, 2020 (3 months)
 * Implemented to have a busy chart
 * Implemented a user profile section to control their own information
 * Stored a data across pages using localStorage
-* Work closely with back end programmer to meet project requirements, goals, and desired functionality
+* Worked closely with back end programmer to meet project requirements, goals, and desired functionality
 
 ## Future improvements
 
