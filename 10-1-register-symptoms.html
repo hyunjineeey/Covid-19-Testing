@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Symptoms</title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+                        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+                        crossorigin="anonymous">
+     <!-- General CSS -->
+    <link rel="stylesheet" href="css/style.css">
+     <!--  Actor - Google Font Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Actor&display=swap" rel="stylesheet">
+    <script>
+        function cancelAppointment(){
+            var db = openDatabase('testdb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+                tx.executeSql('DELETE FROM APPOINTMENT',[],function(result){
+                    window.open('6-home-screen.html','_self');
+                }, null);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page">
+            <!-- Top Navigation Menu -->
+            <div>
+                <a class="btn btn-dark btn-sm" href="6-home-screen.html" role="button">Home</a>
+            </div>
+            <!-- Symptoms Header -->
+            <div class="margin-top-menu">
+                <h4 class="page_title">Symtoms</h4>
+                <h6 class="page_title">Check all that apply</h4>
+            </div>
+            <hr class="hr-section-split">
+
+            <div class="height4percent">
+                <p class="alignleft">I would like to skip the assessment</p>
+                <p class="alignright">
+                    <a class="btn btn-dark btn-sm" role="Edit" href="10-2-register-zip.html">Skip</a>
+                </p>
+            </div>
+            <hr>
+
+            <input type="checkbox" id="fever" name="fever" value="fever">
+            <label for="fever">Fever</label>
+            <hr>
+
+            <input type="checkbox" id="cough" name="cough" value="cough">
+            <label for="cough">Cough</label><hr>
+
+            <input type="checkbox" id="sorethroat" name="sorethroat" value="sorethroat">
+            <label for="sorethroat">Sore throat</label><hr>
+
+            <input type="checkbox" id="shortnessbreath" name="shortnessbreath" value="shortnessbreath">
+            <label for="cough">Shortness of breath/difficulty breathing</label><hr>
+
+            <input type="checkbox" id="fatigue" name="fatigue" value="fatigue">
+            <label for="fatigue">Fatigue</label><hr>
+
+            <input type="checkbox" id="muscleache" name="muscleache" value="muscleache">
+            <label for="muscleache">Muscle or body aches</label><hr>
+
+            <input type="checkbox" id="losstaste" name="losstaste" value="losstaste">
+            <label for="losstaste">New loss of taste or smell</label>
+            <hr class="hr-section-split">
+
+            <div class="page_title">
+            <button class="btn btn-dark btn bottom-of-page-space"><a href="10-2-register-zip.html" style="color: #FFFFFF">Continue</a></button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+</html>

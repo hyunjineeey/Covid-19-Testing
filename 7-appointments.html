@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing for Covid-19</title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+                        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+                        crossorigin="anonymous">
+     <!-- General CSS -->
+    <link rel="stylesheet" href="css/style.css">
+     <!--  Actor - Google Font Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Actor&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for user icon -->
+    <script src="https://use.fontawesome.com/e9d017bbd7.js"></script>
+    <script>
+        var db = openDatabase('testdb', '1.0', 'Test DB', 2 * 1024 * 1024);
+        db.transaction(function (tx) {
+        tx.executeSql('SELECT * FROM Appointment', [], function (tx, results) {
+            var len = results.rows.length;
+            if (len == 0){
+                var msg = "No appointment made";
+                document.getElementById('detail').innerHTML = msg;
+                document.getElementById('button').innerHTML = '';
+            }
+            else{
+                //datetime
+                var msg = '<i class="fa fa-calendar-check-o" aria-hidden="true"></i> ';
+                msg += results.rows.item(0).date;
+                document.getElementById('date').innerHTML = msg;
+
+                //time
+                var msg = '<i class="fa fa-clock-o" aria-hidden="true"> ';
+                msg += results.rows.item(0).time;
+                document.getElementById('time').innerHTML = msg;
+
+                //locationinfo
+                msg = '<i class="fa fa-address-book" aria-hidden="true"></i> ';
+                var locationId = results.rows.item(0).location;
+                if (locationId == "1"){
+                    msg += "St John's Hospital";
+                    document.getElementById('location').innerHTML = msg;
+                    msg = '<i class="fa fa-map-marker" aria-hidden="true"></i> ';
+                    msg += '3300 Oakdale Ave N <br> Minneapolis, MN 55422'
+                    document.getElementById('address').innerHTML = msg;
+                }
+                else if (locationId == "2"){
+                    msg += "Velley Medical & Wellness";
+                    document.getElementById('location').innerHTML = msg;
+                    msg = '<i class="fa fa-map-marker" aria-hidden="true"></i> ';
+                    msg += '2200 E Franklin Ave <br> Minneapolis, MN 55455'
+                    document.getElementById('address').innerHTML = msg;
+                }
+                else if (locationId == "3"){
+                    msg += "Penny George Institute for Health and Healing";
+                    document.getElementById('location').innerHTML = msg;
+                    msg = '<i class="fa fa-map-marker" aria-hidden="true"></i> ';
+                    msg += '2833 Chicago Ave <br> Minneapolis, MN 55407'
+                    document.getElementById('address').innerHTML = msg;
+                }
+                else if (locationId == "4"){
+                    msg += "Whittier Clinic & Pharmacy"
+                    document.getElementById('location').innerHTML = msg;
+                    msg = '<i class="fa fa-map-marker" aria-hidden="true"></i> ';
+                    msg += '2810 Nicollet Ave <br> Minneapolis, MN 55408'
+                    document.getElementById('address').innerHTML = msg;
+                }
+
+                //testmethod
+                var drivethrough = results.rows.item(0).drivethrough;
+                if (drivethrough){
+                    msg = '<i class="fa fa-car" aria-hidden="true"></i> ';
+                    msg +="Drive Through";
+                }
+                else{
+                    msg = '<i class="fa fa-stethoscope" aria-hidden="true"></i> ';
+                    msg +="Clinic";
+                }
+                document.getElementById('testmethod').innerHTML = msg;
+
+                //resultDuration
+                var resultduration = results.rows.item(0).resultduration;
+                msg = '<i class="fa fa-bell" aria-hidden="true"></i> ';
+                msg += "Results in " + resultduration + " day";
+                document.getElementById('resultDuration').innerHTML = msg;
+
+                //cost
+                var cost = results.rows.item(0).cost;
+                msg = '<i class="fa fa-money" aria-hidden="true"></i> ';
+                msg += "Cost: $" + cost;
+                document.getElementById('cost').innerHTML = msg;
+
+                //notification
+                var text = results.rows.item(0).ptext;
+                var email = results.rows.item(0).pemail;
+                if (text == 'true' && email == 'true'){
+                    msg = '<i class="fa fa-bell" aria-hidden="true"></i> ';
+                    msg += "Notification: Text & Email";
+                }
+                else if (text == 'true'){
+                    msg = '<i class="fa fa-bell" aria-hidden="true"></i> ';
+                    msg += "Notification: Text";
+                }
+                else if (email == 'true'){
+                    msg = '<i class="fa fa-bell" aria-hidden="true"></i> ';
+                    msg += "Notification: Email";
+                }
+                document.getElementById('notificationMethod').innerHTML = msg;
+            }
+        }, null);
+        });
+
+        function cancelAppointment(){
+            var db = openDatabase('testdb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+                tx.executeSql('DELETE FROM APPOINTMENT',[],function(result){
+                    window.open('6-home-screen.html','_self');
+                }, null);
+            });
+        }
+
+        function showModal(){
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        function hideModal(){
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="page">
+            <div style="margin-bottom: 30px;">
+                <a class="btn btn-dark btn-sm" href="6-home-screen.html" role="button">Home</a>
+            </div>
+            <h3 class="page_title">My Appointment Details</h3>
+            <div class="content">
+                <div id='detail' name='detail' class="appo-details">
+                    <p id="date"><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Thursday, October 22, 2020</p>
+                    <p id="time"><i class="fa fa-clock-o" aria-hidden="true"></i> 9:00am CST</p>
+                    <p id="location"><i class="fa fa-map" aria-hidden="true"></i> St.John's Hospital</p>
+                    <p id="address"><i class="fa fa-map-marker" aria-hidden="true"></i> 3300 Oakdale Ave N, Minneapolis, MN 55422</p>
+                    <p id="testmethod"><i class="fa fa-car" aria-hidden="true"></i> Drive Thru</p>
+                    <p id="resultDuration"><i class="fa fa-bell" aria-hidden="true"></i> Results in 1 day</p>
+                    <p id="cost"><i class="fa fa-money" aria-hidden="true"></i> No cost</p>
+                    <p id="notificationMethod"><i class="fa fa-bell" aria-hidden="true"></i> Email</p>
+                </div>
+
+                <div id='button' name='button' class="cancelappointment">
+                    <button class="btn btn-secondary btn btn-margin" role="button" onclick="showModal()">Cancel My Appointment</button>
+                </div>
+            </div>
+            <!-- The Modal -->
+            <div id="myModal" class="red-border-alert modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to cancel your appointment?</p>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button id="yesDelete" class="btn btn-secondary btn btn-margin" role="button" onclick="cancelAppointment()">Yes. I want to CANCEL my appointment</button>
+                        <button id="noDelete" class="btn btn-success btn btn-margin"  role="button" onclick="hideModal()">No. I want to KEEP my appointment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
