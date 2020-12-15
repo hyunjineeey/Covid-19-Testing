@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptoms</title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+                        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+                        crossorigin="anonymous">
+     <!-- General CSS -->
+    <link rel="stylesheet" href="css/style.css">
+     <!--  Actor - Google Font Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Actor&display=swap" rel="stylesheet">
+    <script>
+        var db = openDatabase('testdb', '1.0', 'Test DB', 2 * 1024 * 1024);
+        db.transaction(function (tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Appointment (id unique, location, time, date, ptext, pemail, symptom, drivethrough, cost, resultduration, status)');
+        });
+        function showAlert(){
+            var alert = document.getElementById("alert");
+            var fever = document.forms["sympform"]["fever"];
+            var cough = document.forms["sympform"]["cough"];
+            var soreThroat = document.forms["sympform"]["sorethroat"];
+            var shortnessBreath = document.forms["sympform"]["shortnessbreath"];
+            var fatigue = document.forms["sympform"]["fatigue"];
+            var muscleAche = document.forms["sympform"]["muscleache"];
+            var lostTaste = document.forms["sympform"]["losstaste"];
+            var symptomString = "";
+            if (fever.checked)
+                symptomString += "1";
+            if (cough.checked)
+                symptomString += "2";
+            if (soreThroat.checked)
+                symptomString += "3";
+            if (shortnessBreath.checked)
+                symptomString += "4";
+            if (fatigue.checked)
+                symptomString += "5";
+            if (muscleAche.checked)
+                symptomString += "6";
+            if (lostTaste.checked)
+                symptomString += "7";
+            var noSymptom = (!fever.checked && !cough.checked && !soreThroat.checked && !shortnessBreath.checked && !fatigue.checked && !muscleAche.checked && !lostTaste.checked);
+            if (!noSymptom){
+                insertAppointment(symptomString);
+                // Get the modal
+                var modal = document.getElementById("qualifiedModal");
+                modal.style.display = "block";
+                modal.style.cursor = "pointer";
+                var span = document.getElementsByClassName("close")[0];
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+            else{
+                // Get the modal
+                var modal = document.getElementById("notQualifiedModal");
+                modal.style.display = "block";
+                modal.style.cursor = "pointer";
+                var span = document.getElementsByClassName("close")[1];
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function insertAppointment(symptom){
+            var db = openDatabase('testdb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS Appointment (id unique, location, time, date, ptext, pemail, symptom, drivethrough, cost, resultduration, status)');
+            });
+            db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM Appointment where status = ?', ['pending'], function (tx, results) {
+                var len = results.rows.length;
+                if (len == 0){
+                    tx.executeSql('INSERT INTO Appointment (id, location, time, date, ptext, pemail, symptom, drivethrough, cost, resultduration, status) VALUES (1, "", "", "", "", "", ?, "", "", "", ?)', [symptom, 'pending']);
+                }
+                else{
+                    tx.executeSql('UPDATE Appointment set symptom = "' + symptom + '", status="pending"');
+                }
+            }, null);
+            });
+        }
+
+        function redirectToResgiter(){
+            localStorage.setItem('ifUserVisitedSymptoms', 'true');
+            window.open("10-2-register-zip.html", "_self");
+        }
+
+        function redirectToHome(){
+            localStorage.setItem('ifUserVisitedSymptoms', 'true');
+            window.open("6-home-screen.html", "_self");
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page_noHeight">
+            <!-- Top Navigation Menu -->
+            <div>
+                <a class="btn btn-dark btn-sm" href="6-home-screen.html" role="button">Home</a>
+            </div>
+
+            <form name="sympform">
+                <div id="alert" ></div>
+                <!-- Symptoms Header -->
+                <div class="margin-top-menu">
+                    <h4 class="page_title">Symtoms</h4>
+                    <h6 class="page_title">Check all that apply</h4>
+                </div>
+                <hr class="hr-section-split">
+
+                <input type="checkbox" id="fever" name="fever">
+                <label >Fever</label>
+                <hr>
+
+                <input type="checkbox" id="cough" name="cough">
+                <label >Cough</label><hr>
+
+                <input type="checkbox" id="sorethroat" name="sorethroat">
+                <label >Sore throat</label><hr>
+
+                <input type="checkbox" id="shortnessbreath" name="shortnessbreath">
+                <label >Shortness of breath/difficulty breathing</label><hr>
+
+                <input type="checkbox" id="fatigue" name="fatigue">
+                <label >Fatigue</label><hr>
+
+                <input type="checkbox" id="muscleache" name="muscleache">
+                <label >Muscle or body aches</label><hr>
+
+                <input type="checkbox" id="losstaste" name="losstaste">
+                <label >New loss of taste or smell</label>
+                <hr class="hr-section-split">
+            </form>
+
+            <div class="page_title">
+                <div id="status"></div>
+                <button id="submit" class="btn btn-dark btn-sm btn-margin" role="button" onclick="showAlert()">Submit</button>
+            </div>
+
+            <!-- The Modal -->
+            <div class="have-covid-symptoms">
+            <div id="qualifiedModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span id="close0" class="close">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <p>We are sorry that you are not feeling well. Your symptoms may be related to COVID-19. Please register to get tested.</p>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button id="yes" class="btn btn-success btn btn-margin" role="button" onclick="redirectToResgiter()">Register To Get Tested</button>
+                        <button id="no" class="btn btn-secondary btn btn-margin" role="button" onclick="redirectToHome()">I do not wish to proceed</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+            <div id="notQualifiedModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p>Based on the answers given, you do not need to get tested for COVID-19 at this time.</p>
+                        <span id="close1" class="close">&times;</span>
+                    </div>
+
+                    <div class="modal-footer" style="text-align: center;">
+                        <button id="yes" class="btn btn-success btn btn-margin" role="button" onclick="redirectToResgiter()">Still proceed to register for test</button>
+                        <button id="no" class="btn btn-secondary btn btn-margin" role="button" onclick="redirectToHome()">Will wait a few days</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

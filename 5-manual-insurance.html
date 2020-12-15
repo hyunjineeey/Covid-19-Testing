@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing for Covid-19</title>
+    
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" 
+                        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" 
+                        crossorigin="anonymous">
+     <!-- General CSS -->
+    <link rel="stylesheet" href="css/style.css">
+     <!--  Actor - Google Font Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Actor&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/e9d017bbd7.js"></script>
+    
+    <!-- Validate a correct email address -->
+    <script>
+        // 5-manual-insurance.html
+        // Check if all required fields are filled in
+        function required(inputText) {
+            var alert = document.getElementById("alert");
+            var firstname = document.forms["myForm"]["rq1"].value;
+            var lastname = document.forms["myForm"]["rq2"].value;
+            var dob = document.forms["myForm"]["rq3"].value;
+            var ssn = document.forms["myForm"]["rq4"].value;
+            var zip = document.forms["myForm"]["rq5"].value;
+            var mi = document.forms["myForm"]["mi"].value;
+            if (firstname == "" && lastname == "" && dob == "" && ssn == "" && zip == "") {
+                alert.innerHTML="<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Please fill out all required fields";
+            }
+            else if(firstname==""){
+                alert.innerHTML="<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Please enter your first name";
+                return false;
+            }
+            else if(lastname==""){
+                alert.innerHTML="<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Please enter your last name";
+                return false;
+            } 
+            else if(dob==""){
+                alert.innerHTML="<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Please enter your birthday";
+                return false;
+            }
+            else if(ssn==""){
+                alert.innerHTML="<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Please enter your Social Security Number";
+                return false;
+            } 
+            else if(zip==""){
+                alert.innerHTML="<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Please enter your zipcode";
+                return false;
+            }
+            else {
+                updateUser(firstname, mi, lastname, dob, ssn, zip);
+                return true;
+            }
+        }
+        function updateUser(firstname, middlename, lastname, dob, ssn, zip){
+            var db = openDatabase('testdb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM USER', [], function (tx, results) {
+                tx.executeSql('UPDATE USER set firstname = "' + firstname + '", lastname = "' + lastname + '", middlename = "' + middlename + '"', [], function(result){
+                    insertInsurance(dob, ssn, zip);
+                }, null);
+            }, null);
+            });
+        }
+
+        function insertInsurance(dob, ssn, zip){
+            var db = openDatabase('testdb', '1.0', 'Test DB', 2 * 1024 * 1024);
+            var msg = "";
+            db.transaction(function (tx) {
+                tx.executeSql('CREATE TABLE IF NOT EXISTS INSURANCE (id unique, dob, ssn, zip, insuranceid, userid)');
+            });
+            db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM INSURANCE', [], function (tx, results) {
+                var len = results.rows.length, i;
+                var insuranceId = Math.floor(Math.random()*90000) + 10000;
+                if (len == 0){
+                    tx.executeSql('INSERT INTO INSURANCE (id, dob, ssn, zip, insuranceid, userid) VALUES (1, ?, ?, ?, ?, 1)', [dob,ssn,zip, insuranceId], function (result){
+                        window.open("6-home-screen.html", "_self");
+                    }, null);																																	
+                }
+                else{
+                    tx.executeSql('UPDATE INSURANCE set dob = "' + dob + '", ssn = "' + ssn + '", zip ="' + zip + '", insuranceid="' + insuranceId + '"', [], function (result){
+                        window.open("6-home-screen.html", "_self");
+                    },null);																																			
+                }
+            }, null);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="page_noHeight">
+            <a class="btn btn-dark btn-sm" href="4-1-insurance.html" role="button"> Back </a>
+            <h4 class="page_title" style="margin-top:40px ! important;">Enter Personal Information</h4>
+            <div class="content">            
+                <form name="myForm">
+                    <div class="form-group">
+                        <label>First Name <span class="required">*</span></label>
+                        <input class="form-control" name="rq1">
+                    </div>
+                    <div class="form-group">
+                        <label >Middle Name</label>
+                        <input class="form-control" name="mi">
+                    </div>
+                    <div class="form-group">
+                        <label >Last Name <span class="required">*</span></label>
+                        <input class="form-control" name="rq2">
+                    </div>
+                    <div class="form-group">
+                        <label >Date of Birth <span class="required">*</span></label>
+                        <input class="form-control" name="rq3" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label >Last 4-digits of Social Security <span class="required">*</span></label>
+                        <input class="form-control" name="rq4" type="password">
+                    </div>
+                    <div class="form-group">
+                        <label >ZIP Code <span class="required">*</span></label>
+                        <input class="form-control" name="rq5">
+                    </div>
+                    <p id="alert"></p>
+                    <div class="btn-margin">
+                        <a class="btn btn-dark btn-sm" role="button" id="validate" onclick="required(document.myForm.rq1)">Continue</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

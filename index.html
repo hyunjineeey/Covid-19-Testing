@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing for Covid-19</title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+                        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+                        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- General CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!--  Actor - Google Font Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Actor&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/e9d017bbd7.js"></script>
+
+</head>
+<script>
+    function spanish() {
+        var alert = document.getElementById("alert");
+        alert.innerHTML = "<i class='fa fa-exclamation-circle' aria-hidden='true'></i> Currently not available";
+        document.myForm.phoneOrEmail.focus();
+        return false;
+    }
+</script>
+<body>
+    <div class="container">
+        <div class="page">
+            <h3 class="page_title">Select Language</h3>
+            <div class="content">
+                    <!-- SELECT LANGUAGE -->
+                    <div class="container">
+                      <div class="row">
+                        <div class="col" onclick="spanish()" style="cursor:pointer;">
+                            <img class="circle" src="spain.png" width="100px" height="100px">
+                            <p style="text-align: center; font-size: 24px; color: black; margin-top: 16px;">ESP</p>
+                        </div>
+                        <div class="col" style="cursor:pointer;">
+                            <a href="2-2-sign-in.html" style="text-decoration: none; color: black;">
+                                <img class="circle" src="usa.png" width="100px" height="100px">
+                                <p style="text-align: center; font-size: 24px; margin-top: 16px;">ENG</p>
+                            </a>
+                        </div>
+                      </div>
+                    </div>
+                    <p id="alert" style="text-align: center; margin-top: 25px;"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
