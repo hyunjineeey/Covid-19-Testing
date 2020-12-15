@@ -10,6 +10,8 @@ This covid-19 testing application helps people who want to register for tests. O
 * Manage the appointments
 * Check test result
 
+Date: Sep - Dec, 2020 (3 months)
+
 ## How to Run
 * Open `index.html` in `Chrome`
 
@@ -30,6 +32,26 @@ This covid-19 testing application helps people who want to register for tests. O
 * Hyunjin Jae
 * Yutong Li
 * Tam Nguyen
+
+## What We Did
+* Used Asana for agile process to keep track of tasks
+* Used Figma for developing user interface design
+* User research before starting implementation
+* Had interviews with two potential users to have project ideas on the process of user research
+* Research and compared other similar applications(Klara and CVS) to make a difference with them
+* Walkthrough a first (half-way done) prototype with two different users and updated based on their valuable feedback
+* Heuristic evaluation with the team to help design enhance usability from early in development
+* User Testing when it's all done to discover usability and design issues
+
+## What I (Hyunjin Jae) Did
+* Managed development plan from initial through completion
+* Lead a front end part for better web performance
+* Mock up initial pages (1/2)
+* Implemented to validate required fields (email, phone number, ssn)
+* Implemented to have a google map
+* Implemented to have a busy chart
+* Implemented a user profile section to control their own information
+* Work closely with back end programmer to meet project requirements, goals, and desired functionality
 
 ## Future improvements
 
